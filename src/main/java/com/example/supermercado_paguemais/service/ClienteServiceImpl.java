@@ -1,6 +1,8 @@
 package com.example.supermercado_paguemais.service;
 
+import com.example.supermercado_paguemais.model.Cartao;
 import com.example.supermercado_paguemais.model.Cliente;
+import com.example.supermercado_paguemais.model.Endereco;
 import com.example.supermercado_paguemais.repository.CarrinhoRepository;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +11,6 @@ import java.util.List;
 @Service
 public class ClienteServiceImpl implements ClienteService{
     private final CarrinhoRepository repository;
-
 
     public ClienteServiceImpl(CarrinhoRepository repository) {
         this.repository = repository;
@@ -21,13 +22,8 @@ public class ClienteServiceImpl implements ClienteService{
     }
 
     @Override
-    public boolean loginCliente(String email, String senha) {
+    public boolean login(String email, String senha) {
         return false;
-    }
-
-    @Override
-    public Cliente buscarCliente(Integer id) {
-        return null;
     }
 
     @Override
@@ -36,12 +32,37 @@ public class ClienteServiceImpl implements ClienteService{
     }
 
     @Override
-    public void atualizarCliente(Cliente cliente) {
+    public List<Cliente> listarTodos() {
+        return List.of();
+    }
+
+    @Override
+    public Cliente adicionarEndereco(Integer idCliente, Endereco endereco) {
+        return null;
+    }
+
+    @Override
+    public void removerEndereco(Integer idCliente, Integer idEndereco) {
 
     }
 
     @Override
-    public List<Cliente> listarTodos() {
+    public List<Endereco> listarEnderecos(Integer idCliente) {
+        return List.of();
+    }
+
+    @Override
+    public Cliente adicionarCartao(Integer idCliente, Cartao cartao) {
+        return null;
+    }
+
+    @Override
+    public void removerCartao(Integer idCliente, Integer idCartao) {
+
+    }
+
+    @Override
+    public List<Cartao> listarCartao(Integer idCliente) {
         return List.of();
     }
 }
