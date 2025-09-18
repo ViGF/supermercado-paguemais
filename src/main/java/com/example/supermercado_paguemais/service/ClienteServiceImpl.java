@@ -16,6 +16,7 @@ public class ClienteServiceImpl implements ClienteService{
         this.repository = repository;
     }
 
+
     @Override
     public void cadastrarCliente(Cliente cliente) {
 
@@ -32,7 +33,7 @@ public class ClienteServiceImpl implements ClienteService{
     }
 
     @Override
-    public List<Cliente> listarTodos() {
+    public List<Cliente> listarClientes() {
         return List.of();
     }
 
@@ -44,11 +45,6 @@ public class ClienteServiceImpl implements ClienteService{
     @Override
     public void removerEndereco(Integer idCliente, Integer idEndereco) {
 
-    }
-
-    @Override
-    public List<Endereco> listarEnderecos(Integer idCliente) {
-        return List.of();
     }
 
     @Override

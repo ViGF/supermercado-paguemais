@@ -10,10 +10,9 @@ public interface ClienteService {
     void cadastrarCliente(Cliente cliente);
     boolean login(String email, String senha);
     void deletarCliente(Integer id);
-    List<Cliente> listarTodos();
+    List<Cliente> listarClientes();
     Cliente adicionarEndereco(Integer idCliente, Endereco endereco);
     void removerEndereco(Integer idCliente,Integer idEndereco);
-    List<Endereco> listarEnderecos(Integer idCliente);
     Cliente adicionarCartao(Integer idCliente, Cartao cartao);
     void removerCartao(Integer idCliente, Integer idCartao);
     List<Cartao> listarCartao(Integer idCliente);

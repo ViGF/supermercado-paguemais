@@ -6,9 +6,7 @@ import com.example.supermercado_paguemais.model.Pedido;
 import java.util.List;
 
 public interface PedidoService {
-    Pedido realizarCompra(Integer idCliente);
+    Pedido realizarCompra(Integer idCliente, Integer idMeioPagamento);
     List<Pedido> listarPedidosPorCliente(Integer idCliente);
     Pedido buscarPorId(Integer idPedido);
-    List<MeioPagamento> listarMeioPagamento();
-    MeioPagamento buscarMeioPagamento(Integer id);
 }
