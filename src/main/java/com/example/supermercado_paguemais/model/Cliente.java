@@ -9,7 +9,6 @@ import java.math.BigDecimal;
 @Table(name = "cliente")
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,4 +32,60 @@ public class Cliente {
 
     @Column(name = "senha", nullable = false)
     private String senha;
+
+    public Integer getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(Integer idCliente) {
+        this.idCliente = idCliente;
+    }
+
+    public String getNomeCliente() {
+        return nomeCliente;
+    }
+
+    public void setNomeCliente(String nomeCliente) {
+        this.nomeCliente = nomeCliente;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getInfoCartao() {
+        return infoCartao;
+    }
+
+    public void setInfoCartao(String infoCartao) {
+        this.infoCartao = infoCartao;
+    }
+
+    public BigDecimal getSaldoConta() {
+        return saldoConta;
+    }
+
+    public void setSaldoConta(BigDecimal saldoConta) {
+        this.saldoConta = saldoConta;
+    }
+
+    public Integer getIdEndereco() {
+        return idEndereco;
+    }
+
+    public void setIdEndereco(Integer idEndereco) {
+        this.idEndereco = idEndereco;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
 }

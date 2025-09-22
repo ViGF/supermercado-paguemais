@@ -3,11 +3,10 @@ package com.example.supermercado_paguemais.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Entity
-@Table(name = "produto")
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Entity
+@Table(name = "produto")
 public class Produto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,4 +24,44 @@ public class Produto {
 
     @Column(name = "unidades", nullable = false)
     private Integer unidades;
+
+    public Integer getIdProduto() {
+        return idProduto;
+    }
+
+    public void setIdProduto(Integer idProduto) {
+        this.idProduto = idProduto;
+    }
+
+    public String getNomeProduto() {
+        return nomeProduto;
+    }
+
+    public void setNomeProduto(String nomeProduto) {
+        this.nomeProduto = nomeProduto;
+    }
+
+    public Double getPrecoProduto() {
+        return precoProduto;
+    }
+
+    public void setPrecoProduto(Double precoProduto) {
+        this.precoProduto = precoProduto;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public Integer getUnidades() {
+        return unidades;
+    }
+
+    public void setUnidades(Integer unidades) {
+        this.unidades = unidades;
+    }
 }

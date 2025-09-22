@@ -7,7 +7,6 @@ import lombok.*;
 @Table(name = "produtopedido")
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 public class ProdutoPedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,4 +21,36 @@ public class ProdutoPedido {
 
     @Column(name = "unidades", nullable = false)
     private Integer unidades;
+
+    public Integer getIdPrdoutoPedido() {
+        return idPrdoutoPedido;
+    }
+
+    public void setIdPrdoutoPedido(Integer idPrdoutoPedido) {
+        this.idPrdoutoPedido = idPrdoutoPedido;
+    }
+
+    public Integer getIdPedido() {
+        return idPedido;
+    }
+
+    public void setIdPedido(Integer idPedido) {
+        this.idPedido = idPedido;
+    }
+
+    public Integer getIdProduto() {
+        return idProduto;
+    }
+
+    public void setIdProduto(Integer idProduto) {
+        this.idProduto = idProduto;
+    }
+
+    public Integer getUnidades() {
+        return unidades;
+    }
+
+    public void setUnidades(Integer unidades) {
+        this.unidades = unidades;
+    }
 }

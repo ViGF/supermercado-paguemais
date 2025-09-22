@@ -7,7 +7,6 @@ import lombok.*;
 @Table(name = "meiopagamento")
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 public class MeioPagamento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,4 +15,20 @@ public class MeioPagamento {
 
     @Column(name = "idcliente", nullable = false)
     private Integer idCliente;
+
+    public Integer getIdMeioPagamento() {
+        return idMeioPagamento;
+    }
+
+    public void setIdMeioPagamento(Integer idMeioPagamento) {
+        this.idMeioPagamento = idMeioPagamento;
+    }
+
+    public Integer getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(Integer idCliente) {
+        this.idCliente = idCliente;
+    }
 }

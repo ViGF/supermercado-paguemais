@@ -9,7 +9,6 @@ import java.util.Date;
 @Table(name = "cartao")
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 public class Cartao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,4 +23,36 @@ public class Cartao {
 
     @Column(name = "validade", nullable = false)
     private Date validade;
+
+    public Integer getIdCartao() {
+        return idCartao;
+    }
+
+    public void setIdCartao(Integer idCartao) {
+        this.idCartao = idCartao;
+    }
+
+    public String getNomeNoCartao() {
+        return nomeNoCartao;
+    }
+
+    public void setNomeNoCartao(String nomeNoCartao) {
+        this.nomeNoCartao = nomeNoCartao;
+    }
+
+    public String getNumeroCartao() {
+        return numeroCartao;
+    }
+
+    public void setNumeroCartao(String numeroCartao) {
+        this.numeroCartao = numeroCartao;
+    }
+
+    public Date getValidade() {
+        return validade;
+    }
+
+    public void setValidade(Date validade) {
+        this.validade = validade;
+    }
 }
