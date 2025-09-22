@@ -7,36 +7,53 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class CarrinhoServiceImpl implements CarrinhoService{
+public class CarrinhoServiceImpl implements CarrinhoService {
     private final CarrinhoRepository repository;
 
     public CarrinhoServiceImpl(CarrinhoRepository repository) {
         this.repository = repository;
     }
 
-
     @Override
     public Carrinho adicionarProduto(Integer idCliente, Integer idProduto, Integer quantidade) {
-        return null;
+        return repository.findByIdClienteAndIdProduto(idCliente, idProduto)
+                .map(item -> {
+                    item.setQuantidade(item.getQuantidade() + quantidade);
+                    return repository.save(item);
+                })
+                .orElseGet(() -> {
+                    Carrinho novoItem = new Carrinho();
+                    novoItem.setIdCliente(idCliente);
+                    novoItem.setIdProduto(idProduto);
+                    novoItem.setQuantidade(quantidade);
+                    return repository.save(novoItem);
+                });
     }
 
     @Override
     public void removerProduto(Integer idCliente, Integer idProduto) {
-
+        repository.findByIdClienteAndIdProduto(idCliente, idProduto)
+                .ifPresent(repository::delete);
     }
 
     @Override
     public Carrinho atualizarQuantidade(Integer idCliente, Integer idProduto, Integer novaQuantidade) {
-        return null;
+        return repository.findByIdClienteAndIdProduto(idCliente, idProduto)
+                .map(item -> {
+                    item.setQuantidade(novaQuantidade); // vai substitui pela nova quantidade
+                    return repository.save(item);
+                })
+                .orElse(null);
     }
 
     @Override
     public List<Carrinho> listarCarrinho(Integer idCliente) {
-        return List.of();
+        return repository.findByIdCliente(idCliente);
     }
 
     @Override
     public void limparCarrinho(Integer idCliente) {
-
+        List<Carrinho> itens = repository.findByIdCliente(idCliente);
+        repository.deleteAll(itens);
     }
 }
