@@ -22,8 +22,7 @@ public class PedidoServiceImpl implements PedidoService {
         pedido.setIdMeioPagamento(idMeioPagamento);
         pedido.setDataHora(LocalDateTime.now());
 
-        // aqui você pode calcular o valor total baseado no carrinho do cliente
-        // por enquanto, vou deixar como 0.0
+        // aqui da para calcular o valor total baseado no carrinho do cliente
         pedido.setValorTotal(0.0);
 
         return repository.save(pedido);
