@@ -3,19 +3,18 @@ package com.example.supermercado_paguemais.service;
 import com.example.supermercado_paguemais.model.Cartao;
 import com.example.supermercado_paguemais.model.Cliente;
 import com.example.supermercado_paguemais.model.Endereco;
-import com.example.supermercado_paguemais.repository.CarrinhoRepository;
+import com.example.supermercado_paguemais.repository.ClienteRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class ClienteServiceImpl implements ClienteService{
-    private final CarrinhoRepository repository;
+    private final ClienteRepository repository;
 
-    public ClienteServiceImpl(CarrinhoRepository repository) {
+    public ClienteServiceImpl(ClienteRepository repository) {
         this.repository = repository;
     }
-
 
     @Override
     public void cadastrarCliente(Cliente cliente) {
