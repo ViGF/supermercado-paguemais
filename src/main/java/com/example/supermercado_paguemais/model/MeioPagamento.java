@@ -13,8 +13,9 @@ public class MeioPagamento {
     @Column(name = "idmeiopagamento")
     private Integer idMeioPagamento;
 
-    @Column(name = "idcliente", nullable = false)
-    private Integer idCliente;
+    @ManyToOne
+    @JoinColumn(name = "idcliente", nullable = false)
+    private Cliente idCliente;
 
     public Integer getIdMeioPagamento() {
         return idMeioPagamento;
@@ -24,11 +25,11 @@ public class MeioPagamento {
         this.idMeioPagamento = idMeioPagamento;
     }
 
-    public Integer getIdCliente() {
+    public Cliente getIdCliente() {
         return idCliente;
     }
 
-    public void setIdCliente(Integer idCliente) {
+    public void setIdCliente(Cliente idCliente) {
         this.idCliente = idCliente;
     }
 }

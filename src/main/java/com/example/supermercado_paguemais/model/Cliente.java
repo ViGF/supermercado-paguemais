@@ -21,13 +21,13 @@ public class Cliente {
     @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "infocartao", nullable = false)
+    @Column(name = "infocartao")
     private String infoCartao;
 
     @Column(name = "saldoconta", nullable = false)
     private BigDecimal saldoConta;
 
-    @Column(name = "idendereco", nullable = false)
+    @Column(name = "idendereco")
     private Integer idEndereco;
 
     @Column(name = "senha", nullable = false)
