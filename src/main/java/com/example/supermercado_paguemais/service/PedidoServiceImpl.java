@@ -4,6 +4,7 @@ import com.example.supermercado_paguemais.model.Pedido;
 import com.example.supermercado_paguemais.repository.PedidoRepository;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -20,10 +21,10 @@ public class PedidoServiceImpl implements PedidoService {
         Pedido pedido = new Pedido();
         pedido.setIdCliente(idCliente);
         pedido.setIdMeioPagamento(idMeioPagamento);
-        pedido.setDataHora(LocalDateTime.now());
+        pedido.setCriadoEm(LocalDateTime.now());
 
         // aqui da para calcular o valor total baseado no carrinho do cliente
-        pedido.setValorTotal(0.0);
+        pedido.setValorTotal(BigDecimal.valueOf(0.0));
 
         return repository.save(pedido);
     }

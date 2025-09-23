@@ -18,14 +18,14 @@ public class CarrinhoServiceImpl implements CarrinhoService {
     public Carrinho adicionarProduto(Integer idCliente, Integer idProduto, Integer quantidade) {
         return repository.findByIdClienteAndIdProduto(idCliente, idProduto)
                 .map(item -> {
-                    item.setQuantidade(item.getQuantidade() + quantidade);
+                    item.setQuantidadeItens(item.getQuantidadeItens() + quantidade);
                     return repository.save(item);
                 })
                 .orElseGet(() -> {
                     Carrinho novoItem = new Carrinho();
                     novoItem.setIdCliente(idCliente);
                     novoItem.setIdProduto(idProduto);
-                    novoItem.setQuantidade(quantidade);
+                    novoItem.setQuantidadeItens(quantidade);
                     return repository.save(novoItem);
                 });
     }
@@ -40,7 +40,7 @@ public class CarrinhoServiceImpl implements CarrinhoService {
     public Carrinho atualizarQuantidade(Integer idCliente, Integer idProduto, Integer novaQuantidade) {
         return repository.findByIdClienteAndIdProduto(idCliente, idProduto)
                 .map(item -> {
-                    item.setQuantidade(novaQuantidade); // vai substitui pela nova quantidade
+                    item.setQuantidadeItens(novaQuantidade); // vai substitui pela nova quantidade
                     return repository.save(item);
                 })
                 .orElse(null);
