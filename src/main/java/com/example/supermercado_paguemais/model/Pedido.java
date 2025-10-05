@@ -16,14 +16,17 @@ public class Pedido {
     @Column(name = "idpedido")
     private Integer idPedido;
 
-    @Column(name = "idcliente", nullable = false)
-    private Integer idCliente;
+    @ManyToOne
+    @JoinColumn(name = "idcliente", nullable = false)
+    private Cliente cliente;
 
-    @Column(name = "idmeiopagamento", nullable = false)
-    private Integer idMeioPagamento;
+    @ManyToOne
+    @JoinColumn(name = "idmeiopagamento", nullable = false)
+    private MeioPagamento meioPagamento;
 
-    @Column(name = "idenderecopf", nullable = false)
-    private Integer idEndereco;
+    @ManyToOne
+    @JoinColumn(name = "idenderecopf", nullable = false)
+    private Endereco endereco;
 
     @Column(name = "criadoem", nullable = false)
     private LocalDateTime criadoEm;
@@ -45,28 +48,28 @@ public class Pedido {
         this.idPedido = idPedido;
     }
 
-    public Integer getIdCliente() {
-        return idCliente;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public void setIdCliente(Integer idCliente) {
-        this.idCliente = idCliente;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
-    public Integer getIdMeioPagamento() {
-        return idMeioPagamento;
+    public MeioPagamento getMeioPagamento() {
+        return meioPagamento;
     }
 
-    public void setIdMeioPagamento(Integer idMeioPagamento) {
-        this.idMeioPagamento = idMeioPagamento;
+    public void setMeioPagamento(MeioPagamento meioPagamento) {
+        this.meioPagamento = meioPagamento;
     }
 
-    public Integer getIdEndereco() {
-        return idEndereco;
+    public Endereco getEndereco() {
+        return endereco;
     }
 
-    public void setIdEndereco(Integer idEndereco) {
-        this.idEndereco = idEndereco;
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
 
     public LocalDateTime getCriadoEm() {

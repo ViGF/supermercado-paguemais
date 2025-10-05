@@ -3,6 +3,8 @@ package com.example.supermercado_paguemais.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "meiopagamento")
 @NoArgsConstructor
@@ -14,8 +16,11 @@ public class MeioPagamento {
     private Integer idMeioPagamento;
 
     @ManyToOne
-    @JoinColumn(name = "idcliente", nullable = false)
-    private Cliente idCliente;
+    @JoinColumn(name = "idcartao")
+    private Cartao cartao;
+
+    @OneToMany(mappedBy = "meioPagamento")
+    private List<Pedido> pedidos;
 
     public Integer getIdMeioPagamento() {
         return idMeioPagamento;
@@ -25,11 +30,19 @@ public class MeioPagamento {
         this.idMeioPagamento = idMeioPagamento;
     }
 
-    public Cliente getIdCliente() {
-        return idCliente;
+    public Cartao getCartao() {
+        return cartao;
     }
 
-    public void setIdCliente(Cliente idCliente) {
-        this.idCliente = idCliente;
+    public void setCartao(Cartao cartao) {
+        this.cartao = cartao;
+    }
+
+    public List<Pedido> getPedidos() {
+        return pedidos;
+    }
+
+    public void setPedidos(List<Pedido> pedidos) {
+        this.pedidos = pedidos;
     }
 }

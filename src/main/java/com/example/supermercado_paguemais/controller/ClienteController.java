@@ -57,7 +57,7 @@ public class ClienteController {
     }
 
     // Remover endereço
-    @DeleteMapping("/{idCliente}/endereco/{idEndereco}")
+    @DeleteMapping("/{idCliente}/endereco/{idEndereco}") //DEU ERRO, 500
     public ResponseEntity<Void> removerEndereco(@PathVariable Integer idCliente, @PathVariable Integer idEndereco) {
         clienteService.removerEndereco(idCliente, idEndereco);
         return ResponseEntity.noContent().build();
@@ -71,7 +71,7 @@ public class ClienteController {
     }
 
     // Remover cartão
-    @DeleteMapping("/{idCliente}/cartao/{idCartao}")
+    @DeleteMapping("/{idCliente}/cartao/{idCartao}")//DEU ERRO, 500
     public ResponseEntity<Void> removerCartao(@PathVariable Integer idCliente, @PathVariable Integer idCartao) {
         clienteService.removerCartao(idCliente, idCartao);
         return ResponseEntity.noContent().build();

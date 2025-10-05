@@ -24,6 +24,10 @@ public class Cartao {
     @Column(name = "validade", nullable = false)
     private Date validade;
 
+    @ManyToOne
+    @JoinColumn(name = "idcliente", nullable = false)
+    private Cliente cliente;
+
     public Integer getIdCartao() {
         return idCartao;
     }
@@ -54,5 +58,13 @@ public class Cartao {
 
     public void setValidade(Date validade) {
         this.validade = validade;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 }
