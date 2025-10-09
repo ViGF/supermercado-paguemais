@@ -1,5 +1,6 @@
 package com.example.supermercado_paguemais.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,14 +14,17 @@ public class ProdutoCarrinho {
     @Column(name = "idprodutocarrinho")
     private Integer idProdutoCarrinho;
 
-    @Column(name = "idcarrinho", nullable = false)
-    private Integer idCarrinho;
+    @ManyToOne
+    @JoinColumn(name = "idcarrinho", nullable = false)
+    @JsonIgnore
+    private Carrinho carrinho;
 
-    @Column(name = "idproduto", nullable = false)
-    private Integer idProduto;
+    @ManyToOne
+    @JoinColumn(name = "idproduto", nullable = false)
+    private Produto produto;
 
     @Column(name = "unidades", nullable = false)
-    private Integer unidades;
+    private Integer unidades = 0;
 
     public Integer getIdProdutoCarrinho() {
         return idProdutoCarrinho;
@@ -30,20 +34,20 @@ public class ProdutoCarrinho {
         this.idProdutoCarrinho = idProdutoCarrinho;
     }
 
-    public Integer getIdCarrinho() {
-        return idCarrinho;
+    public Carrinho getCarrinho() {
+        return carrinho;
     }
 
-    public void setIdCarrinho(Integer idCarrinho) {
-        this.idCarrinho = idCarrinho;
+    public void setCarrinho(Carrinho carrinho) {
+        this.carrinho = carrinho;
     }
 
-    public Integer getIdProduto() {
-        return idProduto;
+    public Produto getProduto() {
+        return produto;
     }
 
-    public void setIdProduto(Integer idProduto) {
-        this.idProduto = idProduto;
+    public void setProduto(Produto produto) {
+        this.produto = produto;
     }
 
     public Integer getUnidades() {

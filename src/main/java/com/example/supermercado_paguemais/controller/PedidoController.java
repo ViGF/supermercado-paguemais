@@ -19,25 +19,33 @@ public class PedidoController {
 
     @PostMapping
     public ResponseEntity<Pedido> realizarCompra(
-            @RequestParam Integer idCliente,
-            @RequestParam Integer idMeioPagamento
+            @RequestBody Pedido pedido
     ) {
-        Pedido pedido = pedidoService.realizarCompra(idCliente, idMeioPagamento);
-        return ResponseEntity.ok(pedido);
+        Pedido novoPedido = pedidoService.realizarCompra(pedido);
+        return ResponseEntity.ok(novoPedido);
     }
 
-    @GetMapping("/cliente/{idCliente}")
-    public ResponseEntity<List<Pedido>> listarPedidosPorCliente(@PathVariable Integer idCliente) {
-        List<Pedido> pedidos = pedidoService.listarPedidosPorCliente(idCliente);
-        return ResponseEntity.ok(pedidos);
+    @GetMapping
+    public ResponseEntity<List<Pedido>> listarTodos() {
+        return ResponseEntity.ok(pedidoService.listarTodos());
     }
 
     @GetMapping("/{idPedido}")
     public ResponseEntity<Pedido> buscarPorId(@PathVariable Integer idPedido) {
-        Pedido pedido = pedidoService.buscarPorId(idPedido);
-        if (pedido == null) {
-            return ResponseEntity.notFound().build();
-        }
+        return pedidoService.buscarPorId(idPedido)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Pedido> atualizarPedido(@PathVariable Integer id, @RequestBody Pedido pedidoAtualizado) {
+        Pedido pedido = pedidoService.atualizarPedido(id, pedidoAtualizado);
         return ResponseEntity.ok(pedido);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarPedido(@PathVariable Integer id) {
+        pedidoService.deletarPedido(id);
+        return ResponseEntity.noContent().build();
     }
 }

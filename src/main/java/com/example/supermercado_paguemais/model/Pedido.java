@@ -21,10 +21,6 @@ public class Pedido {
     private Cliente cliente;
 
     @ManyToOne
-    @JoinColumn(name = "idmeiopagamento", nullable = false)
-    private MeioPagamento meioPagamento;
-
-    @ManyToOne
     @JoinColumn(name = "idenderecopf", nullable = false)
     private Endereco endereco;
 
@@ -40,6 +36,21 @@ public class Pedido {
     @Column(name = "status", length = 50, nullable = false)
     private String status;
 
+    @Column(name = "forma_pagamento", length = 50, nullable = false)
+    private String formaPagamento;
+
+    @Column(name = "numero_cartao", length = 20)
+    private String numeroCartao;
+
+    @Column(name = "nome_titular", length = 100)
+    private String nomeTitular;
+
+    @Column(name = "validade", length = 10)
+    private String validade;
+
+    @Column(name = "cvv", length = 4)
+    private String cvv;
+
     public Integer getIdPedido() {
         return idPedido;
     }
@@ -54,14 +65,6 @@ public class Pedido {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
-    }
-
-    public MeioPagamento getMeioPagamento() {
-        return meioPagamento;
-    }
-
-    public void setMeioPagamento(MeioPagamento meioPagamento) {
-        this.meioPagamento = meioPagamento;
     }
 
     public Endereco getEndereco() {
@@ -102,5 +105,45 @@ public class Pedido {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getFormaPagamento() {
+        return formaPagamento;
+    }
+
+    public void setFormaPagamento(String formaPagamento) {
+        this.formaPagamento = formaPagamento;
+    }
+
+    public String getNumeroCartao() {
+        return numeroCartao;
+    }
+
+    public void setNumeroCartao(String numeroCartao) {
+        this.numeroCartao = numeroCartao;
+    }
+
+    public String getNomeTitular() {
+        return nomeTitular;
+    }
+
+    public void setNomeTitular(String nomeTitular) {
+        this.nomeTitular = nomeTitular;
+    }
+
+    public String getValidade() {
+        return validade;
+    }
+
+    public void setValidade(String validade) {
+        this.validade = validade;
+    }
+
+    public String getCvv() {
+        return cvv;
+    }
+
+    public void setCvv(String cvv) {
+        this.cvv = cvv;
     }
 }

@@ -5,7 +5,7 @@ import com.example.supermercado_paguemais.service.CarrinhoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/carrinho")
@@ -44,8 +44,8 @@ public class CarrinhoController {
     }
 
     @GetMapping("/listar/{idCliente}")
-    public ResponseEntity<List<Carrinho>> listarCarrinho(@PathVariable Integer idCliente) {
-        List<Carrinho> itens = carrinhoService.listarCarrinho(idCliente);
+    public ResponseEntity<Optional<Carrinho>> listarCarrinho(@PathVariable Integer idCliente) {
+        Optional<Carrinho> itens = carrinhoService.listarCarrinho(idCliente);
         return ResponseEntity.ok(itens);
     }
 

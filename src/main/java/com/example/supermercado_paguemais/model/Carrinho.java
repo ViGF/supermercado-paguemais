@@ -3,6 +3,8 @@ package com.example.supermercado_paguemais.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "carrinho")
 @NoArgsConstructor
@@ -13,14 +15,21 @@ public class Carrinho {
     @Column(name = "idcarrinho")
     private Integer idCarrinho;
 
-    @Column(name = "idcliente", nullable = false)
-    private Integer idCliente;
-
-    @Column(name = "idproduto", nullable = false)
-    private Integer idProduto;
+    @ManyToOne
+    @JoinColumn(name = "idcliente", nullable = false)
+    private Cliente cliente;
 
     @Column(name = "quantidadeitens", nullable = false)
-    private int quantidadeItens;
+    private Integer quantidadeItens = 0;
+
+    @OneToMany(mappedBy = "carrinho", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProdutoCarrinho> produtosCarrinho;
+
+    public void atualizarQuantidadeItens() {
+        this.quantidadeItens = produtosCarrinho.stream()
+                .mapToInt(ProdutoCarrinho::getUnidades)
+                .sum();
+    }
 
     public Integer getIdCarrinho() {
         return idCarrinho;
@@ -30,27 +39,27 @@ public class Carrinho {
         this.idCarrinho = idCarrinho;
     }
 
-    public Integer getIdCliente() {
-        return idCliente;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public void setIdCliente(Integer idCliente) {
-        this.idCliente = idCliente;
+    public void setCliente(Cliente idCliente) {
+        this.cliente = idCliente;
     }
 
-    public Integer getIdProduto() {
-        return idProduto;
+    public List<ProdutoCarrinho> getProdutosCarrinho() {
+        return produtosCarrinho;
     }
 
-    public void setIdProduto(Integer idProduto) {
-        this.idProduto = idProduto;
+    public void setProdutosCarrinho(List<ProdutoCarrinho> produtosCarrinho) {
+        this.produtosCarrinho = produtosCarrinho;
     }
 
-    public int getQuantidadeItens() {
+    public Integer getQuantidadeItens() {
         return quantidadeItens;
     }
 
-    public void setQuantidadeItens(int quantidadeItens) {
+    public void setQuantidadeItens(Integer quantidadeItens) {
         this.quantidadeItens = quantidadeItens;
     }
 }

@@ -19,9 +19,6 @@ public class MeioPagamento {
     @JoinColumn(name = "idcartao")
     private Cartao cartao;
 
-    @OneToMany(mappedBy = "meioPagamento")
-    private List<Pedido> pedidos;
-
     public Integer getIdMeioPagamento() {
         return idMeioPagamento;
     }
@@ -36,13 +33,5 @@ public class MeioPagamento {
 
     public void setCartao(Cartao cartao) {
         this.cartao = cartao;
-    }
-
-    public List<Pedido> getPedidos() {
-        return pedidos;
-    }
-
-    public void setPedidos(List<Pedido> pedidos) {
-        this.pedidos = pedidos;
     }
 }

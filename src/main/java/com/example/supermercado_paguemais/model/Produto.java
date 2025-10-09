@@ -3,6 +3,8 @@ package com.example.supermercado_paguemais.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -17,7 +19,7 @@ public class Produto {
     private String nomeProduto;
 
     @Column(name = "precoproduto", nullable = false)
-    private Double precoProduto;
+    private BigDecimal precoProduto;
 
     @Column(name = "categoria", nullable = false)
     private String categoria;
@@ -41,11 +43,11 @@ public class Produto {
         this.nomeProduto = nomeProduto;
     }
 
-    public Double getPrecoProduto() {
+    public BigDecimal getPrecoProduto() {
         return precoProduto;
     }
 
-    public void setPrecoProduto(Double precoProduto) {
+    public void setPrecoProduto(BigDecimal precoProduto) {
         this.precoProduto = precoProduto;
     }
 
