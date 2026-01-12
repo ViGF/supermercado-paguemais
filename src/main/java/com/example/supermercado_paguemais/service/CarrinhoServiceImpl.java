@@ -10,6 +10,7 @@ import com.example.supermercado_paguemais.repository.ProdutoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,31 +30,27 @@ public class CarrinhoServiceImpl implements CarrinhoService {
 
     @Override
     public Carrinho adicionarProduto(Integer idCliente, Integer idProduto, Integer quantidade) {
+
         Cliente cliente = clienteRepository.findById(idCliente)
                 .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
 
         Produto produto = produtoRepository.findById(idProduto)
                 .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
 
-        Carrinho carrinho = carrinhoRepository.findByClienteAndProduto(cliente, produto)
+        // 1️⃣ Busca ou cria o carrinho do cliente
+        Carrinho carrinho = carrinhoRepository.findByCliente(cliente)
                 .orElseGet(() -> {
-                    Carrinho novoItem = new Carrinho();
-                    novoItem.setCliente(cliente);
-
-                    ProdutoCarrinho pc = new ProdutoCarrinho();
-                    pc.setProduto(produto);
-                    pc.setCarrinho(novoItem);
-                    pc.setUnidades(quantidade);
-
-                    novoItem.setProdutosCarrinho(new ArrayList<>());
-                    novoItem.getProdutosCarrinho().add(pc);
-                    novoItem.atualizarQuantidadeItens();
-
-                    return novoItem;
+                    Carrinho novo = new Carrinho();
+                    novo.setCliente(cliente);
+                    novo.setProdutosCarrinho(new ArrayList<>());
+                    novo.setQuantidadeItens(0);
+                    return novo;
                 });
 
-        ProdutoCarrinho produtoCarrinho = carrinho.getProdutosCarrinho().stream()
-                .filter(pc -> pc.getProduto().getIdProduto().equals(produto.getIdProduto()))
+        // 2️⃣ Busca o produto dentro do carrinho
+        ProdutoCarrinho produtoCarrinho = carrinho.getProdutosCarrinho()
+                .stream()
+                .filter(pc -> pc.getProduto().getIdProduto().equals(idProduto))
                 .findFirst()
                 .orElseGet(() -> {
                     ProdutoCarrinho pc = new ProdutoCarrinho();
@@ -64,11 +61,15 @@ public class CarrinhoServiceImpl implements CarrinhoService {
                     return pc;
                 });
 
+        // 3️⃣ Soma a quantidade
         produtoCarrinho.setUnidades(produtoCarrinho.getUnidades() + quantidade);
+
+        // 4️⃣ Atualiza o total do carrinho
         carrinho.atualizarQuantidadeItens();
 
         return carrinhoRepository.save(carrinho);
     }
+
 
 
     @Override
@@ -94,17 +95,18 @@ public class CarrinhoServiceImpl implements CarrinhoService {
         return carrinhoRepository.findByClienteAndProduto(cliente, produto)
                 .map(item -> {
                     item.setQuantidadeItens(novaQuantidade);
+                    item.
                     return carrinhoRepository.save(item);
                 })
                 .orElseThrow(() -> new RuntimeException("Produto não encontrado no carrinho"));
     }
 
     @Override
-    public Optional<Carrinho> listarCarrinho(Integer idCliente) {
+    public List<Carrinho> listarCarrinho(Integer idCliente) {
         Cliente cliente = clienteRepository.findById(idCliente)
                 .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
 
-        return carrinhoRepository.findByCliente(cliente);
+        return carrinhoRepository.findAllByCliente(cliente);
     }
 
     @Override

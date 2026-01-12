@@ -35,7 +35,7 @@ public class PedidoServiceImpl implements PedidoService {
                         .orElseThrow(() -> new RuntimeException("Cliente não encontrado!"));
         Endereco endereco = enderecoRepository.findById(pedido.getEndereco().getIdEndereco())
                         .orElseThrow(() -> new RuntimeException("Endereço não encontrado!"));
-        Carrinho carrinho = carrinhoRepository.findByCliente(cliente)
+        Carrinho carrinho = carrinhoRepository.findById(cliente.getIdCliente())
                 .orElseThrow(() -> new RuntimeException("Carrinho não encontrado para este cliente!"));
 
         BigDecimal valorTotal = carrinho.getProdutosCarrinho().stream()
@@ -45,9 +45,7 @@ public class PedidoServiceImpl implements PedidoService {
 
         pedido.setCliente(cliente);
         pedido.setEndereco(endereco);
-        pedido.setValorTotal(valorTotal);
         pedido.setCriadoEm(LocalDateTime.now());
-        pedido.setStatus("PENDENTE");
 
         Pedido pedidoSalvo = pedidoRepository.save(pedido);
 
@@ -72,6 +70,7 @@ public class PedidoServiceImpl implements PedidoService {
         return pedidoRepository.findById(id)
                 .map(pedido -> {
                     pedido.setStatus(pedidoAtualizado.getStatus());
+                    pedido.setValorTotal(pedidoAtualizado.getValorTotal());
                     pedido.setAtualizadoEm(LocalDateTime.now());
                     return pedidoRepository.save(pedido);
                 }).orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
