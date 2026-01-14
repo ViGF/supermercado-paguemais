@@ -1,6 +1,5 @@
 package com.example.supermercado_paguemais.service;
 
-import com.example.supermercado_paguemais.model.Cartao;
 import com.example.supermercado_paguemais.model.Cliente;
 import com.example.supermercado_paguemais.model.Endereco;
 
@@ -11,9 +10,5 @@ public interface ClienteService {
     boolean login(String email, String senha);
     void deletarCliente(Integer id);
     List<Cliente> listarClientes();
-    Cliente adicionarEndereco(Integer idCliente, Endereco endereco);
-    void removerEndereco(Integer idCliente,Integer idEndereco);
-    Cliente adicionarCartao(Integer idCliente, Cartao cartao);
-    void removerCartao(Integer idCliente, Integer idCartao);
-    List<Cartao> listarCartao(Integer idCliente);
+    Cliente atualizarEndereco(Integer idCliente, Endereco enderecoNovo);
 }

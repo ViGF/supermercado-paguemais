@@ -27,8 +27,9 @@ public class Cliente {
     @Column(name = "saldoconta", nullable = false)
     private BigDecimal saldoConta;
 
-    @Column(name = "idendereco")
-    private Integer idEndereco;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "idendereco")
+    private Endereco idEndereco;
 
     @Column(name = "senha", nullable = false)
     private String senha;
@@ -73,11 +74,11 @@ public class Cliente {
         this.saldoConta = saldoConta;
     }
 
-    public Integer getIdEndereco() {
+    public Endereco getIdEndereco() {
         return idEndereco;
     }
 
-    public void setIdEndereco(Integer idEndereco) {
+    public void setIdEndereco(Endereco idEndereco) {
         this.idEndereco = idEndereco;
     }
 

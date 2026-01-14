@@ -41,9 +41,9 @@ public class ProdutoController {
         return ResponseEntity.ok(produtoService.buscarPorCategoria(categoria));
     }
 
-    @PutMapping("/{id}/estoque") //ver se atualiza ou soma a quantidade já existente
+    @PutMapping("/estoque")
     public ResponseEntity<Produto> atualizarEstoque(
-            @PathVariable Integer id,
+            @RequestParam Integer id,
             @RequestParam Integer quantidade
     ) {
         try {

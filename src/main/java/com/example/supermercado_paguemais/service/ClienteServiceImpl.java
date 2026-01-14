@@ -1,11 +1,11 @@
 package com.example.supermercado_paguemais.service;
 
-import com.example.supermercado_paguemais.model.Cartao;
 import com.example.supermercado_paguemais.model.Cliente;
 import com.example.supermercado_paguemais.model.Endereco;
-import com.example.supermercado_paguemais.repository.CartaoRepository;
+import com.example.supermercado_paguemais.repository.CarrinhoRepository;
 import com.example.supermercado_paguemais.repository.ClienteRepository;
 import com.example.supermercado_paguemais.repository.EnderecoRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,12 +14,12 @@ import java.util.List;
 public class ClienteServiceImpl implements ClienteService{
     private final ClienteRepository clienteRepository;
     private final EnderecoRepository enderecoRepository;
-    private final CartaoRepository cartaoRepository;
+    private final CarrinhoRepository carrinhoRepository;
 
-    public ClienteServiceImpl(ClienteRepository clienteRepository, EnderecoRepository enderecoRepository, CartaoRepository cartaoRepository) {
+    public ClienteServiceImpl(ClienteRepository clienteRepository, EnderecoRepository enderecoRepository, CarrinhoRepository carrinhoRepository) {
         this.clienteRepository = clienteRepository;
         this.enderecoRepository = enderecoRepository;
-        this.cartaoRepository = cartaoRepository;
+        this.carrinhoRepository = carrinhoRepository;
     }
 
     @Override
@@ -29,12 +29,21 @@ public class ClienteServiceImpl implements ClienteService{
 
     @Override
     public boolean login(String email, String senha) {
-        return clienteRepository.findByEmailAndSenha(email, senha).isPresent();
+        return clienteRepository
+                .findByEmailAndSenha(email.trim(), senha.trim())
+                .isPresent();
     }
 
     @Override
+    @Transactional
     public void deletarCliente(Integer id) {
-        clienteRepository.deleteById(id);
+
+        Cliente cliente = clienteRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+
+        carrinhoRepository.deleteByCliente(cliente);
+
+        clienteRepository.delete(cliente);
     }
 
     @Override
@@ -43,57 +52,22 @@ public class ClienteServiceImpl implements ClienteService{
     }
 
     @Override
-    public Cliente adicionarEndereco(Integer idCliente, Endereco endereco) {
-        Cliente cliente = clienteRepository.findById(idCliente).orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+    @Transactional
+    public Cliente atualizarEndereco(Integer idCliente, Endereco enderecoNovo) {
 
-        Endereco enderecoSalvo = enderecoRepository.save(endereco);
-        cliente.setIdEndereco(enderecoSalvo.getIdEndereco());
-
-        return clienteRepository.save(cliente);
-    }
-
-    @Override
-    public void removerEndereco(Integer idCliente, Integer idEndereco) {
-        Cliente cliente = clienteRepository.findById(idCliente).orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
-
-        if(!cliente.getIdEndereco().equals(idEndereco)) {
-            throw new RuntimeException("Endereco não pertence ao cliente informado");
-        }
-
-        cliente.setIdEndereco(null);
-        clienteRepository.save(cliente);
-        enderecoRepository.deleteById(idEndereco);
-
-    }
-
-    @Override
-    public Cliente adicionarCartao(Integer idCliente, Cartao cartao) {
-        Cliente cliente = clienteRepository.findById(idCliente).orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
-
-        cliente.setInfoCartao(cartao.getNumeroCartao());
-
-        return clienteRepository.save(cliente);
-    }
-
-    @Override
-    public void removerCartao(Integer idCliente, Integer idCartao) {
-        Cliente cliente = clienteRepository.findById(idCliente).orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
-
-        if(!cliente.getInfoCartao().equals(idCartao.toString())) {
-            throw new RuntimeException("Cartão não pertence ao cliente informado");
-        }
-
-        cliente.setInfoCartao(null);
-        clienteRepository.save(cliente);
-
-        cartaoRepository.deleteById(idCartao);
-    }
-
-    @Override
-    public List<Cartao> listarCartao(Integer idCliente) {
         Cliente cliente = clienteRepository.findById(idCliente)
                 .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
 
-        return cartaoRepository.findByNumeroCartao(cliente.getInfoCartao()).map(List::of).orElse(List.of());
+        Endereco enderecoAtual = cliente.getIdEndereco();
+
+        enderecoAtual.setRua(enderecoNovo.getRua());
+        enderecoAtual.setNumero(enderecoNovo.getNumero());
+        enderecoAtual.setCidade(enderecoNovo.getCidade());
+        enderecoAtual.setCep(enderecoNovo.getCep());
+        enderecoAtual.setBairro(enderecoNovo.getBairro());
+
+        enderecoRepository.save(enderecoAtual);
+
+        return cliente;
     }
 }

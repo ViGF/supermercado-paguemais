@@ -7,11 +7,11 @@ import com.example.supermercado_paguemais.model.ProdutoCarrinho;
 import com.example.supermercado_paguemais.repository.CarrinhoRepository;
 import com.example.supermercado_paguemais.repository.ClienteRepository;
 import com.example.supermercado_paguemais.repository.ProdutoRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CarrinhoServiceImpl implements CarrinhoService {
@@ -37,7 +37,6 @@ public class CarrinhoServiceImpl implements CarrinhoService {
         Produto produto = produtoRepository.findById(idProduto)
                 .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
 
-        // 1️⃣ Busca ou cria o carrinho do cliente
         Carrinho carrinho = carrinhoRepository.findByCliente(cliente)
                 .orElseGet(() -> {
                     Carrinho novo = new Carrinho();
@@ -47,7 +46,6 @@ public class CarrinhoServiceImpl implements CarrinhoService {
                     return novo;
                 });
 
-        // 2️⃣ Busca o produto dentro do carrinho
         ProdutoCarrinho produtoCarrinho = carrinho.getProdutosCarrinho()
                 .stream()
                 .filter(pc -> pc.getProduto().getIdProduto().equals(idProduto))
@@ -61,10 +59,8 @@ public class CarrinhoServiceImpl implements CarrinhoService {
                     return pc;
                 });
 
-        // 3️⃣ Soma a quantidade
         produtoCarrinho.setUnidades(produtoCarrinho.getUnidades() + quantidade);
 
-        // 4️⃣ Atualiza o total do carrinho
         carrinho.atualizarQuantidadeItens();
 
         return carrinhoRepository.save(carrinho);
@@ -86,20 +82,30 @@ public class CarrinhoServiceImpl implements CarrinhoService {
 
     @Override
     public Carrinho atualizarQuantidade(Integer idCliente, Integer idProduto, Integer novaQuantidade) {
+
         Cliente cliente = clienteRepository.findById(idCliente)
                 .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
 
-        Produto produto = produtoRepository.findById(idProduto)
-                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+        Carrinho carrinho = carrinhoRepository.findFirstByCliente(cliente)
+                .orElseThrow(() -> new RuntimeException("Carrinho não encontrado"));
 
-        return carrinhoRepository.findByClienteAndProduto(cliente, produto)
-                .map(item -> {
-                    item.setQuantidadeItens(novaQuantidade);
-                    item.
-                    return carrinhoRepository.save(item);
-                })
+        ProdutoCarrinho produtoCarrinho = carrinho.getProdutosCarrinho()
+                .stream()
+                .filter(pc -> pc.getProduto().getIdProduto().equals(idProduto))
+                .findFirst()
                 .orElseThrow(() -> new RuntimeException("Produto não encontrado no carrinho"));
+
+        // atualiza unidades do produto
+        produtoCarrinho.setUnidades(novaQuantidade);
+
+        // recalcula total de itens do carrinho
+        carrinho.atualizarQuantidadeItens();
+
+        return carrinhoRepository.save(carrinho);
     }
+
+
+
 
     @Override
     public List<Carrinho> listarCarrinho(Integer idCliente) {
@@ -110,14 +116,22 @@ public class CarrinhoServiceImpl implements CarrinhoService {
     }
 
     @Override
+    @Transactional
     public void limparCarrinho(Integer idCliente) {
+
         Cliente cliente = clienteRepository.findById(idCliente)
                 .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
 
-        carrinhoRepository.findByCliente(cliente).ifPresent(carrinho -> {
-            carrinho.getProdutosCarrinho().clear();
-            carrinhoRepository.save(carrinho);
-        });
+        Carrinho carrinho = carrinhoRepository.findByCliente(cliente)
+                .orElseThrow(() -> new RuntimeException("Carrinho não encontrado"));
+
+        carrinho.getProdutosCarrinho().clear();
+        carrinho.atualizarQuantidadeItens();
+
+        carrinhoRepository.save(carrinho);
     }
+
+
+
 
 }
