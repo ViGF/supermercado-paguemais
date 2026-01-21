@@ -41,13 +41,13 @@ public class CarrinhoController {
             @RequestParam Integer idProduto,
             @RequestParam Integer novaQuantidade) {
         Carrinho atualizado = carrinhoService.atualizarQuantidade(idCliente, idProduto, novaQuantidade);
-        return (atualizado != null) ? ResponseEntity.ok(atualizado) : ResponseEntity.notFound().build();
+        return ResponseEntity.ok(atualizado);
     }
 
-    @GetMapping("/listar/{idCliente}")
-    public ResponseEntity<List<Carrinho>> listarCarrinho(@PathVariable Integer idCliente) {
-        List<Carrinho> itens = carrinhoService.listarCarrinho(idCliente);
-        return ResponseEntity.ok(itens);
+    @GetMapping("/{idCliente}")
+    public ResponseEntity<Carrinho> listarCarrinho(@PathVariable Integer idCliente) {
+        Carrinho carrinho = carrinhoService.listarCarrinho(idCliente);
+        return ResponseEntity.ok(carrinho);
     }
 
     @DeleteMapping("/limpar/{idCliente}")

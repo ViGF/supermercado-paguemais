@@ -11,7 +11,6 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class CarrinhoServiceImpl implements CarrinhoService {
@@ -29,7 +28,12 @@ public class CarrinhoServiceImpl implements CarrinhoService {
     }
 
     @Override
+    @Transactional
     public Carrinho adicionarProduto(Integer idCliente, Integer idProduto, Integer quantidade) {
+
+        if (quantidade <= 0) {
+            throw new RuntimeException("Quantidade inválida");
+        }
 
         Cliente cliente = clienteRepository.findById(idCliente)
                 .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
@@ -66,27 +70,14 @@ public class CarrinhoServiceImpl implements CarrinhoService {
         return carrinhoRepository.save(carrinho);
     }
 
-
-
     @Override
-    public void removerProduto(Integer idCliente, Integer idProduto) {
-        Cliente cliente = clienteRepository.findById(idCliente)
-                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
-
-        Produto produto = produtoRepository.findById(idProduto)
-                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
-
-        carrinhoRepository.findByClienteAndProduto(cliente, produto)
-                .ifPresent(carrinhoRepository::delete);
-    }
-
-    @Override
+    @Transactional
     public Carrinho atualizarQuantidade(Integer idCliente, Integer idProduto, Integer novaQuantidade) {
 
         Cliente cliente = clienteRepository.findById(idCliente)
                 .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
 
-        Carrinho carrinho = carrinhoRepository.findFirstByCliente(cliente)
+        Carrinho carrinho = carrinhoRepository.findByCliente(cliente)
                 .orElseThrow(() -> new RuntimeException("Carrinho não encontrado"));
 
         ProdutoCarrinho produtoCarrinho = carrinho.getProdutosCarrinho()
@@ -95,24 +86,46 @@ public class CarrinhoServiceImpl implements CarrinhoService {
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("Produto não encontrado no carrinho"));
 
-        // atualiza unidades do produto
-        produtoCarrinho.setUnidades(novaQuantidade);
+        if (novaQuantidade <= 0) {
+            carrinho.getProdutosCarrinho().remove(produtoCarrinho);
+        } else {
+            produtoCarrinho.setUnidades(novaQuantidade);
+        }
 
-        // recalcula total de itens do carrinho
         carrinho.atualizarQuantidadeItens();
 
         return carrinhoRepository.save(carrinho);
     }
 
-
-
-
     @Override
-    public List<Carrinho> listarCarrinho(Integer idCliente) {
+    @Transactional
+    public void removerProduto(Integer idCliente, Integer idProduto) {
+
         Cliente cliente = clienteRepository.findById(idCliente)
                 .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
 
-        return carrinhoRepository.findAllByCliente(cliente);
+        Carrinho carrinho = carrinhoRepository.findByCliente(cliente)
+                .orElseThrow(() -> new RuntimeException("Carrinho não encontrado"));
+
+        boolean removido = carrinho.getProdutosCarrinho()
+                .removeIf(pc -> pc.getProduto().getIdProduto().equals(idProduto));
+
+        if (!removido) {
+            throw new RuntimeException("Produto não encontrado no carrinho");
+        }
+
+        carrinho.atualizarQuantidadeItens();
+        carrinhoRepository.save(carrinho);
+    }
+
+    @Override
+    public Carrinho listarCarrinho(Integer idCliente) {
+
+        Cliente cliente = clienteRepository.findById(idCliente)
+                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+
+        return carrinhoRepository.findByCliente(cliente)
+                .orElseThrow(() -> new RuntimeException("Carrinho vazio"));
     }
 
     @Override
@@ -130,8 +143,4 @@ public class CarrinhoServiceImpl implements CarrinhoService {
 
         carrinhoRepository.save(carrinho);
     }
-
-
-
-
 }
