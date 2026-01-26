@@ -2,9 +2,6 @@ package com.example.supermercado_paguemais.service;
 
 import com.example.supermercado_paguemais.model.Carrinho;
 
-import java.util.List;
-import java.util.Optional;
-
 public interface CarrinhoService {
     Carrinho adicionarProduto(Integer idCliente, Integer idProduto, Integer quantidade);
     void removerProduto(Integer idCliente, Integer idProduto);

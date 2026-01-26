@@ -1,7 +1,10 @@
 package com.example.supermercado_paguemais.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "produtopedido")
@@ -10,47 +13,60 @@ import lombok.*;
 public class ProdutoPedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idprodutopedido")
-    private Integer idPrdoutoPedido;
+    private Integer id;
 
-    @Column(name = "idpedido", nullable = false)
-    private Integer idPedido;
+    @ManyToOne
+    @JoinColumn(name = "idpedido", nullable = false)
+    @JsonIgnore
+    private Pedido pedido;
 
-    @Column(name = "idproduto", nullable = false)
-    private Integer idProduto;
+    @ManyToOne
+    @JoinColumn(name = "idproduto", nullable = false)
+    private Produto produto;
 
     @Column(name = "unidades", nullable = false)
-    private Integer unidades;
+    private Integer quantidade;
 
-    public Integer getIdPrdoutoPedido() {
-        return idPrdoutoPedido;
+    @Column(name = "preco_unitario", nullable = false)
+    private BigDecimal precoUnitario;
+
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdPrdoutoPedido(Integer idPrdoutoPedido) {
-        this.idPrdoutoPedido = idPrdoutoPedido;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public Integer getIdPedido() {
-        return idPedido;
+    public Pedido getPedido() {
+        return pedido;
     }
 
-    public void setIdPedido(Integer idPedido) {
-        this.idPedido = idPedido;
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
     }
 
-    public Integer getIdProduto() {
-        return idProduto;
+    public Produto getProduto() {
+        return produto;
     }
 
-    public void setIdProduto(Integer idProduto) {
-        this.idProduto = idProduto;
+    public void setProduto(Produto produto) {
+        this.produto = produto;
     }
 
-    public Integer getUnidades() {
-        return unidades;
+    public Integer getQuantidade() {
+        return quantidade;
     }
 
-    public void setUnidades(Integer unidades) {
-        this.unidades = unidades;
+    public void setQuantidade(Integer quantidade) {
+        this.quantidade = quantidade;
+    }
+
+    public BigDecimal getPrecoUnitario() {
+        return precoUnitario;
+    }
+
+    public void setPrecoUnitario(BigDecimal precoUnitario) {
+        this.precoUnitario = precoUnitario;
     }
 }

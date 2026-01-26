@@ -17,12 +17,24 @@ public class PedidoController {
         this.pedidoService = pedidoService;
     }
 
-    @PostMapping
-    public ResponseEntity<Pedido> realizarCompra(
-            @RequestBody Pedido pedido
-    ) {
-        Pedido novoPedido = pedidoService.realizarCompra(pedido);
-        return ResponseEntity.ok(novoPedido);
+    @PostMapping("/realizar-compra/{idCliente}")
+    public ResponseEntity<?> criarPedido(@PathVariable Integer idCliente) {
+        try {
+            Pedido pedido = pedidoService.realizarCompra(idCliente);
+            return ResponseEntity.ok(pedido);
+        } catch (RuntimeException e) {
+            return ResponseEntity.ok("Aviso: " + e.getMessage());
+        }
+    }
+
+    @PutMapping("/confirmar/{idPedido}")
+    public ResponseEntity<?> confirmarPedido(@PathVariable Integer idPedido, @RequestBody Pedido dadosPagamento) {
+        try {
+            Pedido pedidoConfirmado = pedidoService.confirmarPedido(idPedido, dadosPagamento);
+            return ResponseEntity.ok(pedidoConfirmado);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @GetMapping

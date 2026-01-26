@@ -5,6 +5,8 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "pedido")
@@ -33,8 +35,8 @@ public class Pedido {
     @Column(name = "valortotal", nullable = false)
     private BigDecimal valorTotal;
 
-    @Column(name = "status", length = 50, nullable = false)
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private StatusPedido status;
 
     @Column(name = "forma_pagamento", length = 50, nullable = false)
     private String formaPagamento;
@@ -50,6 +52,17 @@ public class Pedido {
 
     @Column(name = "cvv", length = 4)
     private String cvv;
+
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProdutoPedido> produtosPedido = new ArrayList<>();
+
+    public List<ProdutoPedido> getProdutosPedido() {
+        return produtosPedido;
+    }
+
+    public void setProdutosPedido(List<ProdutoPedido> produtosPedido) {
+        this.produtosPedido = produtosPedido;
+    }
 
     public Integer getIdPedido() {
         return idPedido;
@@ -99,11 +112,11 @@ public class Pedido {
         this.valorTotal = valorTotal;
     }
 
-    public String getStatus() {
+    public StatusPedido getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(StatusPedido status) {
         this.status = status;
     }
 

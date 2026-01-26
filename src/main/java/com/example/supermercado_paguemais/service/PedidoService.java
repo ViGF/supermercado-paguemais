@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PedidoService {
-    Pedido realizarCompra(Pedido pedido);
+    Pedido realizarCompra(Integer idCliente);
+    Pedido confirmarPedido(Integer idPedido, Pedido dadosPagamento);
     List<Pedido> listarTodos();
     Optional<Pedido> buscarPorId(Integer idPedido);
     Pedido atualizarPedido(Integer id, Pedido pedidoAtualizado);

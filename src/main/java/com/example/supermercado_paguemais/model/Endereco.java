@@ -7,7 +7,6 @@ import lombok.*;
 @Table(name = "endereco")
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 public class Endereco {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
