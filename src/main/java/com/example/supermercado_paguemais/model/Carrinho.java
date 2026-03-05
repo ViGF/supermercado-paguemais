@@ -15,7 +15,7 @@ public class Carrinho {
     @Column(name = "idcarrinho")
     private Integer idCarrinho;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "idcliente", nullable = false)
     private Cliente cliente;
 

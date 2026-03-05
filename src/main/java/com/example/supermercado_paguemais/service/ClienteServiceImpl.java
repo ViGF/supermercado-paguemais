@@ -1,11 +1,15 @@
 package com.example.supermercado_paguemais.service;
 
+import com.example.supermercado_paguemais.model.Carrinho;
 import com.example.supermercado_paguemais.model.Cliente;
 import com.example.supermercado_paguemais.model.Endereco;
+import com.example.supermercado_paguemais.model.UsuarioRole;
 import com.example.supermercado_paguemais.repository.CarrinhoRepository;
 import com.example.supermercado_paguemais.repository.ClienteRepository;
 import com.example.supermercado_paguemais.repository.EnderecoRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +20,9 @@ public class ClienteServiceImpl implements ClienteService{
     private final EnderecoRepository enderecoRepository;
     private final CarrinhoRepository carrinhoRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public ClienteServiceImpl(ClienteRepository clienteRepository, EnderecoRepository enderecoRepository, CarrinhoRepository carrinhoRepository) {
         this.clienteRepository = clienteRepository;
         this.enderecoRepository = enderecoRepository;
@@ -24,6 +31,15 @@ public class ClienteServiceImpl implements ClienteService{
 
     @Override
     public void cadastrarCliente(Cliente cliente) {
+        String senhaCriptografada = passwordEncoder.encode(cliente.getSenha());
+        cliente.setSenha(senhaCriptografada);
+
+        cliente.setRole(UsuarioRole.USER);
+
+        Carrinho carrinho = new Carrinho();
+        carrinho.setCliente(cliente);
+        cliente.setCarrinho(carrinho);
+
         clienteRepository.save(cliente);
     }
 

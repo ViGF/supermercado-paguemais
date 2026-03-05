@@ -34,6 +34,12 @@ public class Cliente {
     @Column(name = "senha", nullable = false)
     private String senha;
 
+    @OneToOne(mappedBy = "cliente", cascade = CascadeType.ALL)
+    private Carrinho carrinho;
+
+    @Enumerated(EnumType.STRING)
+    private UsuarioRole role;
+
     public Integer getIdCliente() {
         return idCliente;
     }
@@ -88,5 +94,21 @@ public class Cliente {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public Carrinho getCarrinho() {
+        return carrinho;
+    }
+
+    public void setCarrinho(Carrinho carrinho) {
+        this.carrinho = carrinho;
+    }
+
+    public UsuarioRole getRole() {
+        return role;
+    }
+
+    public void setRole(UsuarioRole role) {
+        this.role = role;
     }
 }

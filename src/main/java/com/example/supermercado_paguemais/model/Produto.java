@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,6 +27,13 @@ public class Produto {
 
     @Column(name = "unidades", nullable = false)
     private Integer unidades;
+
+    @Column(name = "imagemcapa", nullable = false)
+    private String imgCapa;
+
+    @ElementCollection
+    @Column(name = "iamgensgaleria")
+    private List<String> imgGaleria;
 
     public Integer getIdProduto() {
         return idProduto;
@@ -65,5 +73,21 @@ public class Produto {
 
     public void setUnidades(Integer unidades) {
         this.unidades = unidades;
+    }
+
+    public String getImgCapa() {
+        return imgCapa;
+    }
+
+    public void setImgCapa(String imgCapa) {
+        this.imgCapa = imgCapa;
+    }
+
+    public List<String> getImgGaleria() {
+        return imgGaleria;
+    }
+
+    public void setImgGaleria(List<String> imgGaleria) {
+        this.imgGaleria = imgGaleria;
     }
 }
