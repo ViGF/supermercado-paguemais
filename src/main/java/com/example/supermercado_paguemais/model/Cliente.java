@@ -9,17 +9,9 @@ import java.math.BigDecimal;
 @Table(name = "cliente")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Cliente {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idcliente")
-    private Integer idCliente;
-
+public class Cliente extends Usuario{
     @Column(name = "nomecliente", nullable = false)
     private String nomeCliente;
-
-    @Column(name = "email", nullable = false)
-    private String email;
 
     @Column(name = "infocartao")
     private String infoCartao;
@@ -31,22 +23,8 @@ public class Cliente {
     @JoinColumn(name = "idendereco")
     private Endereco idEndereco;
 
-    @Column(name = "senha", nullable = false)
-    private String senha;
-
     @OneToOne(mappedBy = "cliente", cascade = CascadeType.ALL)
     private Carrinho carrinho;
-
-    @Enumerated(EnumType.STRING)
-    private UsuarioRole role;
-
-    public Integer getIdCliente() {
-        return idCliente;
-    }
-
-    public void setIdCliente(Integer idCliente) {
-        this.idCliente = idCliente;
-    }
 
     public String getNomeCliente() {
         return nomeCliente;
@@ -54,14 +32,6 @@ public class Cliente {
 
     public void setNomeCliente(String nomeCliente) {
         this.nomeCliente = nomeCliente;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getInfoCartao() {
@@ -88,27 +58,11 @@ public class Cliente {
         this.idEndereco = idEndereco;
     }
 
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
     public Carrinho getCarrinho() {
         return carrinho;
     }
 
     public void setCarrinho(Carrinho carrinho) {
         this.carrinho = carrinho;
-    }
-
-    public UsuarioRole getRole() {
-        return role;
-    }
-
-    public void setRole(UsuarioRole role) {
-        this.role = role;
     }
 }
