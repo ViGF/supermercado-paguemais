@@ -77,6 +77,7 @@ public class PedidoServiceImpl implements PedidoService {
 
         return pedidoRepository.save(pedido);
     }
+
     @Transactional
     @Override
     public Pedido confirmarPedido(Integer idPedido, Pedido dadosPagamento) {
@@ -120,6 +121,7 @@ public class PedidoServiceImpl implements PedidoService {
 
         return pedidoRepository.save(pedido);
 }
+
     @Override
     public List<Pedido> listarTodos() {
         return pedidoRepository.findAll();
