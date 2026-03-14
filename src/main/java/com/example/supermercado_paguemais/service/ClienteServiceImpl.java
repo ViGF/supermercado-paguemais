@@ -30,14 +30,17 @@ public class ClienteServiceImpl implements ClienteService{
     }
 
     @Override
+    @Transactional
     public void cadastrarCliente(Cliente cliente) {
-        String senhaCriptografada = passwordEncoder.encode(cliente.getSenha());
-        cliente.setSenha(senhaCriptografada);
-
+        cliente.setSenha(passwordEncoder.encode(cliente.getSenha()));
         cliente.setRole(UsuarioRole.USER);
+        if(cliente.getIdEndereco() != null) {
+            enderecoRepository.save(cliente.getIdEndereco());
+        }
 
         Carrinho carrinho = new Carrinho();
         carrinho.setCliente(cliente);
+        carrinho.setQuantidadeItens(0);
         cliente.setCarrinho(carrinho);
 
         clienteRepository.save(cliente);
@@ -45,9 +48,9 @@ public class ClienteServiceImpl implements ClienteService{
 
     @Override
     public boolean login(String email, String senha) {
-        return clienteRepository
-                .findByEmailAndSenha(email.trim(), senha.trim())
-                .isPresent();
+        return clienteRepository.findByEmail(email)
+                .map(cliente -> passwordEncoder.matches(senha, cliente.getSenha()))
+                .orElse(false);
     }
 
     @Override

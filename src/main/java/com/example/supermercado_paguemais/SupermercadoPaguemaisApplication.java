@@ -8,15 +8,14 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class SupermercadoPaguemaisApplication {
-	@Bean
-	CommandLineRunner init(AdministradorService adminService) {
-		return args -> {
-			adminService.criarPrimeiroAdmin();
-		};
-	}
-
 	public static void main(String[] args) {
 		SpringApplication.run(SupermercadoPaguemaisApplication.class, args);
 	}
 
+	@Bean
+	CommandLineRunner start(AdministradorService adminService) {
+		return args -> {
+			adminService.criarPrimeiroAdmin();
+		};
+	}
 }

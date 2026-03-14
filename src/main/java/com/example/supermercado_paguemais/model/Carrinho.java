@@ -1,5 +1,6 @@
 package com.example.supermercado_paguemais.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,6 +18,7 @@ public class Carrinho {
 
     @OneToOne
     @JoinColumn(name = "idcliente", nullable = false)
+    @JsonIgnore
     private Cliente cliente;
 
     @Column(name = "quantidadeitens", nullable = false)

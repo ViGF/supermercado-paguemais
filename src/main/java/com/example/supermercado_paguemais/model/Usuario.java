@@ -1,5 +1,6 @@
 package com.example.supermercado_paguemais.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,6 +12,7 @@ public abstract class Usuario {
 
     @Column(unique=true)
     private String email;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String senha;
 
     @Enumerated(EnumType.STRING)
