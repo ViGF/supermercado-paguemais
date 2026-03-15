@@ -31,6 +31,13 @@ public class Produto {
     @Column(name = "imagemcapa")
     private String imgCapa;
 
+    public Produto(String nomeProduto, BigDecimal precoProduto, String categoria, Integer unidades) {
+        this.nomeProduto = nomeProduto;
+        this.precoProduto = precoProduto;
+        this.categoria = categoria;
+        this.unidades = unidades;
+    }
+
 
     public Integer getIdProduto() {
         return idProduto;
