@@ -1,6 +1,7 @@
 package com.example.supermercado_paguemais.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,10 +15,10 @@ public class Carrinho {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idcarrinho")
-    private Integer idCarrinho;
+    private Long idCarrinho;
 
     @OneToOne
-    @JoinColumn(name = "idcliente", nullable = false)
+    @JoinColumn(name = "idcliente", referencedColumnName = "id", nullable = false)
     @JsonIgnore
     private Cliente cliente;
 
@@ -33,11 +34,11 @@ public class Carrinho {
                 .sum();
     }
 
-    public Integer getIdCarrinho() {
+    public Long getIdCarrinho() {
         return idCarrinho;
     }
 
-    public void setIdCarrinho(Integer idCarrinho) {
+    public void setIdCarrinho(Long idCarrinho) {
         this.idCarrinho = idCarrinho;
     }
 

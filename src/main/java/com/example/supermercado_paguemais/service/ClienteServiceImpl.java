@@ -32,15 +32,14 @@ public class ClienteServiceImpl implements ClienteService{
     @Override
     @Transactional
     public void cadastrarCliente(Cliente cliente) {
+
         cliente.setSenha(passwordEncoder.encode(cliente.getSenha()));
         cliente.setRole(UsuarioRole.USER);
-        if(cliente.getIdEndereco() != null) {
-            enderecoRepository.save(cliente.getIdEndereco());
-        }
 
         Carrinho carrinho = new Carrinho();
-        carrinho.setCliente(cliente);
         carrinho.setQuantidadeItens(0);
+        carrinho.setCliente(cliente);
+
         cliente.setCarrinho(carrinho);
 
         clienteRepository.save(cliente);
@@ -55,6 +54,7 @@ public class ClienteServiceImpl implements ClienteService{
 
     @Override
     @Transactional
+
     public void deletarCliente(Integer id) {
 
         Cliente cliente = clienteRepository.findById(id)
