@@ -1,5 +1,6 @@
 package com.example.supermercado_paguemais.repository;
 
+import com.example.supermercado_paguemais.model.Administrador;
 import com.example.supermercado_paguemais.model.Cliente;
 import com.example.supermercado_paguemais.model.Usuario;
 import com.example.supermercado_paguemais.service.ClienteService;
@@ -15,48 +16,64 @@ import java.math.BigDecimal;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
-class ClienteRepositoryTest {
+class UsuarioRepositoryTest {
 
     @Autowired
-    ClienteRepository clienteRepository;
+    UsuarioRepository usuarioRepository;
 
     @Autowired
     EntityManager entityManager;
 
     @Test
-    @DisplayName("Should get User sucessfully from DB")
+    @DisplayName("Should get Client sucessfully from DB")
     @Transactional
     void findByEmailCase1() {
-        String email = "cliente-teste@gmail.com";
+        String email = "usuario-teste@gmail.com";
         Cliente clienteTeste = new Cliente();
         clienteTeste.setNomeCliente("Cliente de Teste");
         clienteTeste.setEmail(email);
         clienteTeste.setSenha("segredo");
         BigDecimal saldo = new BigDecimal(10);
         clienteTeste.setSaldoConta(saldo);
-        this.createCliente(clienteTeste);
+        this.createUsuario(clienteTeste);
 
-        Optional<Cliente> result = this.clienteRepository.findByEmail(email);
+        Optional<Usuario> result = this.usuarioRepository.findByEmail(email);
 
         assertThat(result.isPresent()).isTrue();
     }
 
     @Test
-    @DisplayName("Should not get User from DB when User do not exists")
+    @DisplayName("Should get Admin sucessfully from DB")
+    @Transactional
     void findByEmailCase2() {
-        String email = "cliente-teste@gmail.com";
+        String email = "adm-teste@gmail.com";
+        Administrador admTeste = new Administrador();
+        admTeste.setEmail(email);
+        admTeste.setSenha("segredo");
+        this.createUsuario(admTeste);
 
-        Optional<Cliente> result = this.clienteRepository.findByEmail(email);
+        Optional<Usuario> result = this.usuarioRepository.findByEmail(email);
+
+        assertThat(result.isPresent()).isTrue();
+    }
+
+    @Test
+    @DisplayName("Should not get User from DB when User not exists")
+    void findByEmailCase3() {
+        String email = "usuario-teste@gmail.com";
+
+        Optional<Usuario> result = this.usuarioRepository.findByEmail(email);
 
         assertThat(result.isEmpty()).isTrue();
     }
 
-    private Cliente createCliente(Cliente cliente){
-        Cliente newCliente = cliente;
-        this.entityManager.persist(cliente);
-        return  newCliente;
+    private Usuario createUsuario(Usuario usuario){
+        Usuario newUsuario = usuario;
+        this.entityManager.persist(usuario);
+        return newUsuario;
     }
 }
