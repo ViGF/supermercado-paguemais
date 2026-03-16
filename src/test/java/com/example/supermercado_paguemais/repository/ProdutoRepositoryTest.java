@@ -18,14 +18,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ProdutoRepositoryTest {
 
     @Autowired
-    ProdutoRepository produtoRepository;  // Use apenas o repository
+    ProdutoRepository produtoRepository;
 
     @Test
     @DisplayName("Deve retornar o produto de nome especificado, se existir")
     void findByNomeProdutoContainingIgnoreCase() {
         String nome2 = "Geleia";
         Produto data = new Produto("Geleia", new BigDecimal(13.99), "Mercearia", 30);
-        this.produtoRepository.save(data);  // ← Use o save do repository
+        this.produtoRepository.save(data);
 
         List<Produto> produtoEncontrado = this.produtoRepository.findByNomeProdutoContainingIgnoreCase(nome2);
         assertThat(produtoEncontrado.isEmpty()).isFalse();
@@ -43,7 +43,7 @@ class ProdutoRepositoryTest {
     void findByCategoriaIgnoreCase() {
         String categoria = "Mercearia";
         Produto data = new Produto("Geleia", new BigDecimal(13.99), categoria, 30);
-        this.produtoRepository.save(data);  // ← Use o save do repository
+        this.produtoRepository.save(data);
 
         List<Produto> produtosEncontrados = this.produtoRepository.findByCategoriaIgnoreCase(categoria);
         assertThat(produtosEncontrados.isEmpty()).isFalse();
