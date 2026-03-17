@@ -38,6 +38,8 @@ public class Produto {
         this.unidades = unidades;
     }
 
+    public Produto() {
+    }
 
     public Integer getIdProduto() {
         return idProduto;
