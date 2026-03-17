@@ -31,7 +31,7 @@ public class ClienteServiceImpl implements ClienteService{
 
     @Override
     @Transactional
-    public void cadastrarCliente(Cliente cliente) {
+    public Cliente cadastrarCliente(Cliente cliente) {
 
         cliente.setSenha(passwordEncoder.encode(cliente.getSenha()));
         cliente.setRole(UsuarioRole.USER);
@@ -42,7 +42,7 @@ public class ClienteServiceImpl implements ClienteService{
 
         cliente.setCarrinho(carrinho);
 
-        clienteRepository.save(cliente);
+        return clienteRepository.save(cliente);
     }
 
     @Override

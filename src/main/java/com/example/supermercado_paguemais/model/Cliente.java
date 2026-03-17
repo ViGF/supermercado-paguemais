@@ -1,5 +1,6 @@
 package com.example.supermercado_paguemais.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,6 +20,7 @@ public class Cliente extends Usuario{
     @Column(name = "saldoconta", nullable = false)
     private BigDecimal saldoConta;
 
+    @JsonProperty("endereco")
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idendereco")
     private Endereco idEndereco;

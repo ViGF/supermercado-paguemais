@@ -38,7 +38,7 @@ public class Pedido {
     @Enumerated(EnumType.STRING)
     private StatusPedido status;
 
-    @Column(name = "forma_pagamento", length = 50, nullable = false)
+    @Column(name = "forma_pagamento", length = 50)
     private String formaPagamento;
 
     @Column(name = "numero_cartao", length = 20)

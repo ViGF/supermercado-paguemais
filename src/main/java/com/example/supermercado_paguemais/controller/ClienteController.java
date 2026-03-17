@@ -27,9 +27,9 @@ public class ClienteController {
     private ProdutoService produtoService;
 
     @PostMapping("/cliente/cadastrar")
-    public ResponseEntity<Void> cadastrarCliente(@RequestBody Cliente cliente) {
-        clienteService.cadastrarCliente(cliente);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Cliente> cadastrarCliente(@RequestBody Cliente cliente) {
+        Cliente clienteSalvo = clienteService.cadastrarCliente(cliente);
+        return ResponseEntity.ok(clienteSalvo);
     }
 
     @PostMapping("/cliente/login")

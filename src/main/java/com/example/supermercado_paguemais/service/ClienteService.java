@@ -6,7 +6,7 @@ import com.example.supermercado_paguemais.model.Endereco;
 import java.util.List;
 
 public interface ClienteService {
-    void cadastrarCliente(Cliente cliente);
+    Cliente cadastrarCliente(Cliente cliente);
     boolean login(String email, String senha);
     void deletarCliente(Integer id);
     List<Cliente> listarClientes();
